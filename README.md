@@ -1,2 +1,1 @@
-# ImgIcosaHedron
 # form3js

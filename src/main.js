@@ -1,20 +1,18 @@
 import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
 import fragment from "../shaders/fragment.glsl";
-// import fragment1 from "../shaders/fragment1.glsl";
 import vertex from "../shaders/vertex.glsl";
 import * as dat from "dat.gui";
 import gsap from "gsap";
 
-// import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer.js';
-// import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass.js';
-// import { ShaderPass } from 'three/examples/jsm/postprocessing/ShaderPass.js';
-// import { PostProcessing } from './postprocessing';
 
-// import landscape from "/texture/6.jpg";
+import brush from "/burash.png";
+import texture from "/texture/6.jpg";
 class Sketch {
   constructor(options) {
     this.scene = new THREE.Scene();
+
+    this.scene1 = new THREE.Scene();
 
     this.container = options.dom;
     this.width = this.container.offsetWidth;
@@ -32,54 +30,53 @@ class Sketch {
 
     this.container.appendChild(this.renderer.domElement);
 
-    this.camera = new THREE.PerspectiveCamera(
-      70,
-      this.width / this.height,
-      0.001,
+    this.baseTexture = new THREE.WebGLRenderTarget(
+      this.width,this.height, {
+        minFilter : THREE.LinearFilter,
+        migFilter : THREE.LinearFilter,
+        format : THREE.RGBAFormat
+      }
+    )
+
+    var frustumSize = this.height;
+    var aspect = this.width / this.height;
+    this.camera = new THREE.OrthographicCamera(
+      frustumSize * aspect / - 2,
+      frustumSize * aspect / 2,
+      frustumSize / 2,
+      frustumSize / - 2,
+      -1000,
       1000
-    );
+    )
     this.camera.position.set(0, 0, 2);
+
     this.controls = new OrbitControls(this.camera, this.renderer.domElement);
 
     this.time = 0;
     this.isPlaying = true;
-    this.mouse = 0;
+    this.mouse = new THREE.Vector2(0,0);
+    this.prevMouse = new THREE.Vector2(0,0);
+    this.currentWave = 0;
 
     this.addObjects();
-    // this.mouseEvent();
-    // this.addPost();
+    this.mouseEvent();
     this.resize();
     this.render();
     this.setupResize();
     this.settings();
   }
 
-  // mouseEvent() {
-  //   this.lastX = 0;
-  //   this.lastY = 0;
-  //   this.speed = 0;
+  mouseEvent() {
 
-  //   document.addEventListener("mousemove", (e)=>{
-  //       this.speed = Math.sqrt((e.pageX - this.lastX)**2 + (e.pageY - this.lastY)**2)*0.1;
-  //       this.lastX = e.pageX
-  //       this.lastY = e.pageY
-  //       // console.log(this.speed)
-  //   })
-  // }
-
-  // addPost() {
-  //   this.composer = new EffectComposer(this.renderer);
-  //   this. composer.addPass(new RenderPass(this.scene, this.camera));
-  //   this.customPass = new ShaderPass( PostProcessing );
-  //   this.customPass.uniforms[ "resolution" ].value = new THREE.Vector2( window.innerWidth, window.innerHeight );
-  //   this.customPass.uniforms[ "resolution" ].value.multiplyScalar(window.devicePixelRatio); 
-  //   this.composer.addPass(this.customPass)
-  // }
+    window.addEventListener("mousemove", (e)=>{
+       this.mouse.x = e.clientX - this.width/2;
+       this.mouse.y = this.height/2 - e.clientY;
+    })
+  }
 
   addObjects() {
-    // const t = new THREE.TextureLoader().load(landscape);
-    // // t.wrapS = t.wrapT = new THREE.MirroredRepeatWrapping;
-    // t.wrapS = t.wrapT = THREE.MirroredRepeatWrapping;
+
+    this.imgGeo = new THREE.PlaneGeometry(this.width, this.height, 50,50);
     this.material = new THREE.ShaderMaterial({
       extensions: {
         derivatives: "#extension GL_OES_standard_derivatives : enable",
@@ -87,50 +84,39 @@ class Sketch {
       side: THREE.DoubleSide,
       uniforms: {
         time: { type: "f", value: 0 },
-        // mouse: { type: "f", value: 0 },
-        // landscape: { value: t },
+        uDisplacement : {value : 0},
+        uTexture : {value :  new THREE.TextureLoader().load(texture)},
         resolution: { type: "v4", value: new THREE.Vector4() },
         uvRate1: { value: new THREE.Vector2(1, 1) },
       },
       vertexShader: vertex,
       fragmentShader: fragment,
-    //   wireframe : true,
     });
 
-    // this.material1 = new THREE.ShaderMaterial({
-    //     extensions: {
-    //       derivatives: "#extension GL_OES_standard_derivatives : enable",
-    //     },
-    //     side: THREE.DoubleSide,
-    //     uniforms: {
-    //       time: { type: "f", value: 0 },
-    //       mouse: { type: "f", value: 0 },
-    //       landscape: { value: t },
-    //       resolution: { type: "v4", value: new THREE.Vector4() },
-    //       uvRate1: { value: new THREE.Vector2(1, 1) },
-    //     },
-    //     vertexShader: vertex,
-    //     fragmentShader: fragment1,
-    //   //   wireframe : true,
-    //   });
 
-    this.geometry = new THREE.PlaneGeometry(1, 1);
-    // this.geometry1 = new THREE.IcosahedronGeometry(1.001, 1);
-    // let length = this.geometry1.attributes.position.array.length;
+    this.max = 100;
+    this.geometry = new THREE.PlaneGeometry(50,50 );
+    this.meshes = []
+    for(let i=0 ; i< this.max ; i++) {
+      let m = new THREE.MeshBasicMaterial({
+        map : new THREE.TextureLoader().load(brush),
+        transparent: true,
+        blending : THREE.AdditiveBlending,
+        depthTest : false,
+        depthWrite : false
+      });
+      let mesh = new THREE.Mesh(
+        this.geometry , m
+      )
+      mesh.visible= false
+      mesh.rotation.z = 2 * Math.PI * Math.random();
+      this.scene.add(mesh);
+      this.meshes.push(mesh)
+    }
     
-    // let bary = [];
-
-    // for(let i=0 ; i< length/3 ; i++) {
-    //     bary.push(0,0,1,    0,1,0,    1,0,0);
-    // }
     
-    // let aBary = new Float32Array(bary);
-    // this.geometry1.setAttribute("aBary",new THREE.BufferAttribute(aBary,3))
-    
-    this.plain = new THREE.Mesh(this.geometry, this.material);
-    // this.icoLines = new THREE.Mesh(this.geometry1, this.material1);
-    this.scene.add(this.plain);
-    // this.scene.add(this.icoLines);
+    this.plain = new THREE.Mesh(this.imgGeo, this.material);
+    this.scene1.add(this.plain);
   }
 
   settings() {
@@ -138,9 +124,6 @@ class Sketch {
         howmuchrgb: 1,
     };
     this.gui = new dat.GUI();
-    // this.gui.add(this.settings, "howmuchrgb", 0, 1, 0.01).onChange((value) => {
-    //   this.material.uniforms.progress.value = value;
-    // });
     this.gui.add(this.settings, "howmuchrgb", 0, 1, 0.01);
   }
 
@@ -152,7 +135,6 @@ class Sketch {
     this.width = this.container.offsetWidth;
     this.height = this.container.offsetHeight;
     this.renderer.setSize(this.width, this.height);
-    // this.composer.setSize(this.width, this.height);
     this.camera.aspect = this.width / this.height;
     this.camera.updateProjectionMatrix();
   }
@@ -168,22 +150,50 @@ class Sketch {
     }
   }
 
+  setNewWave(x,y,index) {
+    let mesh = this.meshes[index];
+    mesh.visible = true;
+    mesh.position.x = x;
+    mesh.position.y = y;
+    mesh.material.opacity = 0.5;
+    mesh.scale.x = mesh.scale.y = 0.2
+  }
+
+  trackMousePos() {
+    if(Math.abs(this.mouse.x - this.prevMouse.x) < 4 && Math.abs(this.mouse.y - this.prevMouse.y) < 4) {
+      //nothing
+    }else {
+      this.setNewWave(this.mouse.x,this.mouse.y,this.currentWave)
+      this.currentWave = (this.currentWave + 1) % this.max;
+      console.log(this.currentWave)
+    }
+    this.prevMouse.x = this.mouse.x;
+    this.prevMouse.y = this.mouse.y;
+
+   }
+
   render() {
+    this.trackMousePos();
     if (!this.isPlaying) return;
     this.time += 0.001;
-    // this.mouse -= (this.mouse - this.speed)*0.05;
-    // this.speed *= 0.55
-    // this.scene.rotation.x = this.time;
-    // this.scene.rotation.y = this.time;
-    this.material.uniforms.time.value = this.time;
-    // this.material1.uniforms.time.value = this.time;
-    // this.material.uniforms.mouse.value = this.mouse;
-    // this.material1.uniforms.mouse.value = this.mouse;
-    // this.customPass.uniforms.time.value = this.time;
-    // this.customPass.uniforms.howmuchrgb.value = this.settings.howmuchrgb;
-    // this.customPass.uniforms.howmuchrgb.value = this.mouse / 5;
-    this.renderer.render(this.scene, this.camera);
-    // this.composer.render();
+    this.material.uniforms.time.value = this.time;   
+   this.renderer.setRenderTarget(this.baseTexture);
+   this.renderer.render(this.scene, this.camera);
+   this.material.uniforms.uDisplacement.value = this.baseTexture.texture
+   this.renderer.setRenderTarget(null);
+   this.renderer.clear();
+   this.renderer.render(this.scene1, this.camera);
+   
+   
+    this.meshes.forEach((mesh)=>{
+      if(mesh.visible) {
+        mesh.rotation.z += 0.02;
+        mesh.material.opacity *= 0.96
+        mesh.scale.x = 0.982 * mesh.scale.x+ 0.2;
+        mesh.scale.y = mesh.scale.x
+        if(mesh.material.opacity < 0.002) { mesh.visible = false}
+      }
+    })
     requestAnimationFrame(this.render.bind(this));
   }
 }

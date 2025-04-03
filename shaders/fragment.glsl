@@ -1,6 +1,7 @@
 uniform float time;
 uniform float progress;
-uniform sampler2D landscape;
+uniform sampler2D uTexture;
+uniform sampler2D uDisplacement;
 varying vec2 vUv;
 varying vec3 vPosition;
 varying vec3 vNormal;
@@ -15,30 +16,15 @@ vec2 hash22(vec2 p) {
 }
 
 void main() {
-  // vec3 X = dFdx(vNormal);
-  // vec3 Y = dFdy(vNormal);
-  // vec3 normal = normalize(cross(X,Y));
-  // float diffusion = dot(normal, vec3(1.));
-  // vec2 rand = hash22(vec2(floor(diffusion * 10.))); // 20. best
-  // vec2 uvv =  vec2(sign(rand.x - .5) * 1. + (rand.x - .5) * 0.6 ,  //0.3 best
-  //                  sign(rand.y - .5) * 1. + (rand.y - .5) * 0.6
-  //                 );
 
-  // float fresnel = pow(1. + dot(eyeVector , normal) , 2.);
-  
-  // vec2 uv = uvv * gl_FragCoord.xy / vec2(1000.);
+  vec4 displacement = texture2D(uDisplacement,vUv);
 
-  // vec3 refracted = refract(eyeVector , normal , 1./3.);
-  // uv += 0.2 * refracted.xy; 
+  float theta = displacement.r * 2. * PI;
 
-  
-  
-  // vec4 t = texture2D(landscape, uv);
+  vec2 dir = vec2 (sin(theta), cos(theta));
 
-  // gl_FragColor = vec4(vBary, 1.0);
-  // gl_FragColor = t * (1. - fresnel);
-  // gl_FragColor = vec4(diffusion);
-  // gl_FragColor = vec4(eyeVector, 1.);
-  // gl_FragColor = vec4(vec3(fresnel), 1.);
-  gl_FragColor = vec4(vec2(vUv),0., 1.);
+  vec2 uv = vUv + dir * displacement.r * 0.1;
+
+  vec4 color = texture2D(uTexture,uv);
+  gl_FragColor = color;
 }
