@@ -7,7 +7,7 @@ import gsap from "gsap";
 
 
 import brush from "/burash.png";
-import texture from "/texture/6.jpg";
+import texture from "/texture/3.jpg";
 class Sketch {
   constructor(options) {
     this.scene = new THREE.Scene();
