@@ -1,30 +1,34 @@
-uniform float time;
-uniform float progress;
-uniform sampler2D uTexture;
-uniform sampler2D uDisplacement;
-varying vec2 vUv;
-varying vec3 vPosition;
-varying vec3 vNormal;
-varying vec3 eyeVector;
-varying vec3 vBary;
-float PI = 3.141592653589793238;
+// precision highp float;
+// precision highp int;
 
-vec2 hash22(vec2 p) {
-  p = fract(p * vec2(5.3983, 5.4427));
-  p += dot(p.yx, p.xy + vec2(21.5351, 14.3137));
-  return fract(vec2(p.x * p.y * 95.4337, p.x * p.y * 97.597));
-}
+// uniform float uTime;
+// uniform vec4 res;
+// uniform sampler2D tWater;
+// uniform sampler2D tFlow;
+// varying vec2 vUv;
+
+// void main() {
+//   vec3 flow = texture2D(tFlow, vUv).rgb;
+
+//   vec2 myUV = vUv - flow.xy * 0.3;
+
+//   vec3 tex = texture2D(tWater, myUV).rgb;
+
+//   gl_FragColor = vec4(tex, 1.);
+// }
+
+precision highp float;
+precision highp int;
+
+uniform float uTime;
+uniform vec4 res;
+uniform sampler2D uWater;
+uniform sampler2D tFlow;
+varying vec2 vUv;
 
 void main() {
-
-  vec4 displacement = texture2D(uDisplacement,vUv);
-
-  float theta = displacement.r * 2. * PI;
-
-  vec2 dir = vec2 (sin(theta), cos(theta));
-
-  vec2 uv = vUv + dir * displacement.r * 0.1;
-
-  vec4 color = texture2D(uTexture,uv);
-  gl_FragColor = color;
+  vec3 flow = texture2D(tFlow, vUv).rgb;
+  vec2 myUV = vUv - flow.xy * 0.3;
+  vec3 tex = texture2D(uWater, myUV).rgb;
+  gl_FragColor = vec4(tex, 1.0);
 }
