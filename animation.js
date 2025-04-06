@@ -310,3 +310,198 @@ blogs.forEach((blog, i) => {
     }
 });
   
+
+
+
+
+
+
+
+
+// ScrollTrigger.create({
+//     trigger: ".page6",
+//     start: "top top",
+//     end : "bottom bottom",
+//     scrub: 1,
+//     pin: true,
+//     markers: true,
+//     onUpdate: (self) => {
+//         gsap.from(".page7", {
+//             width : "100vw",
+//             height : "100vw",
+//             duration: 1,
+//             ease: "power3.out"
+//         });
+//     }
+// });
+
+  
+
+
+
+
+
+
+
+
+
+// ScrollTrigger.create({
+//   trigger: ".page6",
+//   start: "top top",
+//   end: "+=200vh",
+//   scrub: true,
+//   pin: ".heading", // 👈 this keeps heading pinned
+//   markers: true
+// });
+
+// gsap.fromTo(".circle",
+//   {
+//     scale: 1,
+//   },
+//   {
+//     scale: 30, // scale up enough to cover screen
+//     scrollTrigger: {
+//       trigger: ".page6",
+//       start: "top top",
+//       end: "+=200vh",
+//       scrub: true,
+//     },
+//     transformOrigin: "center center",
+//     ease: "none"
+//   }
+// );
+
+
+
+
+// const page6Height = document.querySelector(".page6").offsetHeight;
+
+// let tl2 = gsap.timeline({
+//     scrollTrigger: {
+//         trigger: ".page6",
+//         start: "top top",
+//         end: () => `+=${page6Height}`, // dynamically based on .page6 height
+//         scrub: true,
+//         pin: true,
+//         markers: true,
+//       },
+// });
+// tl2.from(".page6 h1 span", {
+//     y: 300,
+//     // delay:0.2,
+//     duration:0.4,
+//     stagger:0.1,
+//     ease: "expoScale(0.5,7,none)", 
+// }).fromTo(".circle",
+//   {
+//     scale: 0,
+//   },
+//   {
+//     scale: 30,
+//     transformOrigin: "center center",
+//     ease: "linear"
+//   }
+// );
+
+
+
+const page6Height = document.querySelector(".page6").offsetHeight;
+
+let tl2 = gsap.timeline({
+  scrollTrigger: {
+    trigger: ".page6",
+    start: "top top",
+    end: () => `+=${page6Height}`,
+    scrub: true, // this scrubs the entire timeline with scroll
+    pin: true,
+    // markers: true,
+  }
+});
+tl2
+  .from(".page6 h1 span", {
+    y: 300,
+    duration:0.4,
+    stagger: 0.1,
+    ease: "expoScale(0.5,7,none)", 
+  })
+  .fromTo(".circle",
+    {
+      scale: 0,
+    },
+    {
+      scale: 30,
+      transformOrigin: "center center",
+      ease: "linear"
+    },
+    "<" // 👈 start at same time as previous animation
+);
+
+
+
+
+
+
+
+
+
+
+
+
+
+// const page7Height = document.querySelector(".page7").offsetHeight;
+// gsap.from(".leftP", {
+//     left: "-100%",
+//     ease: "expoScale(0.5,7,none)",
+//     scrollTrigger: {
+//         trigger: ".page7",
+//         scroller: "body",
+//         start: "top top",
+//         end: () => `+=${page7Height}`,
+//         scrub: true,
+//         markers: true,
+//         pin: true
+//     }
+// });
+// gsap.from(".rightP", {
+//     left: "100%",
+//     ease: "expoScale(0.5,7,none)",
+//     scrollTrigger: {
+//         trigger: ".page7",
+//         scroller: "body",
+//         start: "top top",
+//         end: () => `+=${page7Height}`,
+//         scrub: true,
+//         pin: true
+//     }
+// });
+
+const page7Height = document.querySelector(".page7").offsetHeight;
+const page7Width = document.querySelector(".page7").offsetWidth;
+
+gsap.from(".leftP", {
+  x: `-${page7Width}`, // Move in from left
+  ease: "expoScale(0.5,7,none)",
+  scrollTrigger: {
+    trigger: ".page7",
+    scroller: "body",
+    start: "top top",
+    end: () => `+=${page7Height / 1.5}`,
+    scrub: true,
+    // markers: true,
+    // pin: true,
+  }
+});
+
+gsap.from(".rightP", {
+  x: `${page7Width}`, // Move in from right
+  ease: "expoScale(0.5,7,none)",
+  scrollTrigger: {
+    trigger: ".page7",
+    scroller: "body",
+    start: "top top",
+    pin: true,
+    end: () => `+=${page7Height / 1.5}`,
+    scrub: true,
+  }
+});
+
