@@ -6,14 +6,6 @@
   font-family: second;
   src: url(./assets/font/PoiretOne.ttf);
 }
-/* @font-face {
-  font-family: a;
-  src: url(./assets/font/AlumniSansPinstripe.ttf);
-}
-@font-face {
-  font-family: s;
-  src: url(./assets/font/Quicksand.otf);
-} */
 * {
   padding: 0;
   margin: 0;
@@ -37,6 +29,7 @@ img {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  object-position: center;
 }
 canvas {
   position: absolute;
@@ -48,27 +41,30 @@ canvas {
   /* z-index: 1; */
 }
 
+
 .main {
   width: 100%;
-  /* height: 100vw; */
   position: relative;
   top: 0;
   left: 0;
   overflow-x: hidden;
-  /* background-color: #000; */
 }
+
+
 .blackBgContainer {
   width: 100%;
-  /* height: 100vh; */
   position: relative;
   background-color: #000;
 }
+
+
 .whiteBgContainer {
   width: 100%;
-  /* height: 100vh; */
   position: relative;
   background-color: #f8f8f8;
 }
+
+
 .lineContainer {
   width: 100%;
   height: 100vh;
@@ -85,7 +81,6 @@ canvas {
   height: 100%;
   top: 0;
   background-color: #242424;
-  /* background-color: ; */
 }
 .separator:nth-child(1) {
   left: 25%;
@@ -96,11 +91,12 @@ canvas {
 .separator:nth-child(3) {
   left: 75%;
 }
+
+
 nav {
   position: fixed;
   width: 100%;
   z-index: 9;
-  /* background-color: rgb(15, 31, 31); */
   color: #f8f8f8;
   display: flex;
   align-items: center;
@@ -114,12 +110,13 @@ nav {
   justify-content: flex-start;
   padding: 1vw 1.5vw;
   font-size: 2.25vw;
-  /* background-color: beige; */
 }
 .sections span {
   font-family: second;
   font-size: 3vw;
 }
+
+
 .page1 {
   position: relative;
   width: 100%;
@@ -136,7 +133,6 @@ nav {
 .heading {
   width: 100%;
   text-align: center;
-  /* background-color: aqua; */
 }
 .heading h1 {
   font-size: 28vw;
@@ -169,6 +165,7 @@ nav {
   font-size: 3vw;
 }
 
+
 .page2 {
   position: relative;
   width: 100%;
@@ -194,6 +191,7 @@ nav {
   text-transform: uppercase;
   line-height: 2.5vw;
 }
+
 
 .page3 {
   position: relative;
@@ -223,7 +221,6 @@ nav {
   width: 100%;
   height: 100%;
   overflow: hidden;
-  /* background-color: aqua; */
 }
 .case h2 {
   font-size: 15vw;
@@ -245,6 +242,7 @@ nav {
   justify-content: flex-start;
 }
 
+
 .page4 {
   position: relative;
   width: 100%;
@@ -257,7 +255,6 @@ nav {
   text-transform: uppercase;
   margin-top: 2vw;
   z-index: 2;
-  /* overflow-x: hidden; */
 }
 .page4 .subHeading {
   margin-top: 6vw;
@@ -274,7 +271,6 @@ nav {
 .slide {
   width: 320px;
   height: 220px;
-  /* background-color: rgb(9, 26, 20); */
   padding: 8px;
   display: flex;
   align-items: center;
@@ -303,10 +299,6 @@ nav {
 }
 
 
-
-
-
-
 .page5 {
   position: relative;
   width: 100%;
@@ -318,9 +310,6 @@ nav {
   flex-direction: column;
   z-index: 2;
 }
-/* .page5 .heading {
-
-} */
 .blogs {
   position: absolute;
   width: 100%;
@@ -344,7 +333,6 @@ nav {
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
   text-transform: uppercase;
-  /* top: 100%; */
 }
 .blogImgCont {
   width: 100%;
@@ -396,7 +384,6 @@ nav {
 }
 
 
-
 .page7 {
   position: relative;
   width: 100%;
@@ -407,7 +394,6 @@ nav {
   justify-content: center;
   flex-direction: column;
   z-index: 2;
-  /* background-color: #000; */
 }
 .page7 .top {
   width: 100%;
@@ -419,7 +405,6 @@ nav {
 }
 .leftP , .rightP {
   width: 100%;
-  /* background-color: aqua; */
   padding: 0.1vw;
   font-size: 2.25vw;
   line-height: 100%;
@@ -427,7 +412,6 @@ nav {
   text-align: center;
   font-weight: 10;
   letter-spacing: 2px;
-  /* position: relative; */
 }
 
 
@@ -441,5 +425,40 @@ nav {
   justify-content: center;
   flex-direction: column;
   z-index: 2;
-  /* background-color: #000; */
+}
+
+
+footer {
+  position: relative;
+  width: 100%;
+  color: #000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  z-index: 2;
+  padding: 2vw 0;
+}
+footer .heading {
+  margin: 2.7vw 0;
+}
+.footerTop {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 1.5vw;
+}
+.footerBottom {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  text-transform: uppercase;
+  font-size: 1vw;
+  font-weight: 100;
+  padding: 0 2vw;
+}
+.bottomElem {
+  width: 22%;
 }

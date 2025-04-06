@@ -505,3 +505,33 @@ gsap.from(".rightP", {
   }
 });
 
+
+
+
+
+
+
+
+
+
+
+
+
+//footer
+
+
+ScrollTrigger.create({
+    trigger: "footer",
+    start: "top 40%", // When top of footer hits bottom of viewport
+    // once: true,
+    // markers : true,          // Only trigger once
+    onEnter: () => {
+        gsap.from("footer .heading h1 span", {
+            y: 300,
+            delay:0.1,
+            duration:0.6,
+            stagger:0.15,
+            ease: "expoScale(0.5,7,none)", 
+        })
+    },
+});
