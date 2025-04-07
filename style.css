@@ -39,6 +39,22 @@ canvas {
   z-index: 99 !important;
 }
 
+body {
+  cursor: none; 
+}
+.mouse {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 20px;
+  height: 20px;
+  background: #f8f8f8;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9999;
+  mix-blend-mode: difference;
+}
+
 .main {
   width: 100%;
   position: relative;
@@ -544,5 +560,8 @@ footer .heading {
     width: 100%;
     text-align: center;
     margin: 1.5vw 0 0 0;
+  }
+  .mouse {
+    display: none;
   }
 }

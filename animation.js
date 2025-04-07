@@ -18,6 +18,25 @@ function raf(time) {
 }
 requestAnimationFrame(raf);
 
+// mouseFollower
+function mouseFollower() {
+    let mouseX = 0, mouseY = 0;
+
+    window.addEventListener("mousemove", (e) => {
+        mouseX = e.clientX;
+        mouseY = e.clientY;
+    });
+
+    gsap.ticker.add(() => {
+        gsap.to(".mouse", {
+            x: mouseX - 10,
+            y: mouseY - 10,
+            // duration: 0.
+            ease: "power2.out"
+        });
+    });
+}
+
 //heading and separator animation
 function breakTheTextGsap(domElem) {
     let domElemVar = domElem.textContent;
@@ -295,3 +314,6 @@ outro()
 
 //footer
 footer()
+
+// mouseFollower
+mouseFollower()
