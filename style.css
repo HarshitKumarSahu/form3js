@@ -39,9 +39,7 @@ canvas {
   z-index: 99 !important;
 }
 
-body {
-  cursor: none; 
-}
+
 .mouse {
   position: fixed;
   top: 0;
