@@ -98,9 +98,10 @@ function showCase() {
             scrub: 3,
         }
     });
-    gsap.from(".imgContainer", {
+    gsap.from(".page3 .img", {
         scale: 0.65,
         ease: "expoScale(0.5,7,none)",
+        // zIndex :
         scrollTrigger: {
             trigger: ".page3",
             scroller: "body",
@@ -108,7 +109,7 @@ function showCase() {
             end: "+=1000",
             scrub: 3,
             pin: true,
-        }
+        },
     });
 }
 
