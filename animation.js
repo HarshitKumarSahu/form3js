@@ -22,6 +22,8 @@ requestAnimationFrame(raf);
 //heading and separator animation
 function breakTheTextGsap(domElem) {
     let domElemVar = domElem.textContent;
+    let domElemHeight = domElem.offsetHeight;
+    // alert(domElemHeight)
     let splittedText = domElemVar.split("");
     let clutter = "";  
     splittedText.forEach(function(element, index) {
@@ -30,7 +32,7 @@ function breakTheTextGsap(domElem) {
     h1.innerHTML = clutter
 
     gsap.from(".element", {
-        y: 300,
+        y: domElemHeight,
         delay:0.2,
         duration:0.8,
         stagger:0.2,
@@ -138,7 +140,7 @@ function slider() {
 }
 
 //blogs animation
-function blogs() {
+function blogs(domElem) {
     let tl = gsap.timeline({
         scrollTrigger: {
             trigger: ".page5",
@@ -149,8 +151,9 @@ function blogs() {
             // markers: true,
         }
     });
+    let domElemHeight = domElem.offsetHeight;
     tl.from(".page5 h1 span", {
-        y: 300,
+        y: domElemHeight,
         duration:0.4,
         stagger:0.1,
         ease: "expoScale(0.5,7,none)", 
@@ -187,7 +190,7 @@ function blogs() {
 }
 
 // TBI animation
-function TBI() {
+function TBI(domElem) {
     const page6Height = document.querySelector(".page6").offsetHeight;
 
     let tl2 = gsap.timeline({
@@ -200,9 +203,10 @@ function TBI() {
         // markers: true,
     }
     });
+    let domElemHeight = domElem.offsetHeight;
     tl2
     .from(".page6 h1 span", {
-        y: 300,
+        y: domElemHeight,
         duration:0.4,
         stagger: 0.1,
         ease: "expoScale(0.5,7,none)", 
@@ -252,14 +256,15 @@ function outro() {
 }
 
 //footer
-function footer()  {
+function footer(domElem)  {
+    let domElemHeight = domElem.offsetHeight;
     ScrollTrigger.create({
         trigger: "footer",
         start: "top 40%",
         // markers : true,       
         onEnter: () => {
             gsap.from("footer .heading h1 span", {
-                y: 300,
+                y: domElemHeight,
                 delay:0.1,
                 duration:0.6,
                 stagger:0.15,
@@ -285,15 +290,19 @@ showCase();
 //slider animation
 slider();
 
+let blogH1 = document.querySelector(".page5 h1")
 //blogs animation
-blogs() 
+blogs(blogH1) 
 
+
+let tbiH1 = document.querySelector(".page6 h1")
 // TBI animation
-TBI()
+TBI(tbiH1)
 
 // outro animation
 outro()
 
+let footerH1 = document.querySelector("footer .heading h1")
 //footer
-footer()
+footer(footerH1)
 
