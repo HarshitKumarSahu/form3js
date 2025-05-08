@@ -274,8 +274,15 @@ function footer(domElem)  {
     });
 }
 
-//heading and separator animation
 let h1 = document.querySelector("h1");
+
+let blogH1 = document.querySelector(".page5 h1")
+
+let tbiH1 = document.querySelector(".page6 h1")
+
+let footerH1 = document.querySelector("footer .heading h1")
+
+//heading and separator animation
 breakTheTextGsap(h1)
 
 //subHeading Animation
@@ -290,19 +297,15 @@ showCase();
 //slider animation
 slider();
 
-let blogH1 = document.querySelector(".page5 h1")
 //blogs animation
 blogs(blogH1) 
 
-
-let tbiH1 = document.querySelector(".page6 h1")
 // TBI animation
 TBI(tbiH1)
 
 // outro animation
 outro()
 
-let footerH1 = document.querySelector("footer .heading h1")
 //footer
 footer(footerH1)
 
