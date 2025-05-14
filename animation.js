@@ -308,4 +308,3 @@ outro()
 
 //footer
 footer(footerH1)
-
