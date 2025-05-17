@@ -67,6 +67,7 @@ container.querySelectorAll(".img").forEach((imgElement) => {
   });
   texture.image = originalImg;
 
+  const rect = imgElement.getBoundingClientRect();
   const program = new Program(gl, {
     vertex: vertexShader,
     fragment: fragmentShader,
@@ -75,6 +76,8 @@ container.querySelectorAll(".img").forEach((imgElement) => {
       uWater: { value: texture },
       res: { value: new Vec4(window.innerWidth, window.innerHeight, 1, 1) },
       tFlow: flowMap.uniform,
+      uSize: { value: new Vec2(texture.image?.width || 1, texture.image?.height || 1) },
+      uBox: { value: new Vec2(rect.width, rect.height) },
     },
   });
 
