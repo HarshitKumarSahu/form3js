@@ -255,6 +255,24 @@ function outro() {
     });
 }
 
+// last image pin
+function imgPin(domElem) {
+    gsap.from(".page8 .img", {
+        // scale: 0.65,
+        ease: "expoScale(0.5,7,none)",
+        // zIndex :
+        scrollTrigger: {
+            trigger: ".page8",
+            scroller: "body",
+            start: "top top",
+            end: "+=350",
+            scrub: 3,
+            pin: true,
+            // markers: true
+        },
+    });
+}
+
 //footer
 function footer(domElem)  {
     let domElemHeight = domElem.offsetHeight;
@@ -305,6 +323,9 @@ TBI(tbiH1)
 
 // outro animation
 outro()
+
+// last image animation
+imgPin()
 
 //footer
 footer(footerH1)
